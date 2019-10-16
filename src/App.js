@@ -1,25 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{useState,useEffect,useReducer} from 'react';
+import getList from './api'
+import { Card } from 'antd';
+import Search from './search-input'
+import AddTodo from './add-input'
+import TodoList from './todo-list'
+import todosReducer from './reducer'
+
+export const AppContext = React.createContext({})
+
 
 function App() {
+
+  const [queryText, setQuertText] = useState('');
+  // reducer钩子
+  const [state, dispatch] = useReducer(todosReducer, []);
+ 
+  // 用useEffect钩子发送请求
+  useEffect(() => {
+    getList().then(res=>{
+      dispatch({type:'INIT',list:res})
+    })
+  },[]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{todoList:state,dispatch}}>
+       <Card title="Todo list"  style={{ width: 500 }}>
+         <Search setQuertText={setQuertText}></Search>
+         <AddTodo></AddTodo>
+         <TodoList queryText = {queryText}></TodoList>
+        </Card>
+    </AppContext.Provider>
   );
 }
 
