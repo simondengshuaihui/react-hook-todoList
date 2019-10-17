@@ -3,6 +3,7 @@ import { Input, Button, Row, Col } from "antd";
 import {AppContext} from './App'
 const AddTodo = () => {
   const { dispatch,todoList } = useContext(AppContext)
+  // useState()对组件内的状态进行管理
   const [todoName, setTodoName] = useState('');
   const len = todoList.length
   const lastOne = len>0?todoList[len-1]:{id:0}
