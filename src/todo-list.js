@@ -4,6 +4,7 @@ import { AppContext } from "./App";
 import classNames from "classnames";
 
 const TodoList = props => {
+  // 使用useContext钩子获取共享的AppContext数据
   const { todoList, dispatch } = useContext(AppContext);
   const onDelete = id => {
     dispatch({ type: "DEL_TODO", id });

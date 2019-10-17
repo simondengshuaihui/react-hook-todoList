@@ -4,7 +4,12 @@ import {AppContext} from './App'
 const AddTodo = () => {
   const { dispatch,todoList } = useContext(AppContext)
   const [todoName, setTodoName] = useState('');
-  const addTodo = ()=>dispatch({type:'ADD_TODO',todo:{id:todoList.length,name:todoName,done:false}})
+  const len = todoList.length
+  const lastOne = len>0?todoList[len-1]:{id:0}
+  const addTodo = ()=>{
+    dispatch({type:'ADD_TODO',todo:{id:lastOne.id+1,name:todoName,done:false}})
+    setTodoName('')
+  }
   return (
     <Row style={{marginTop:'10px'}}>
       <Col span={16}>
